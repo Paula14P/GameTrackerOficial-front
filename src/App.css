@@ -1,38 +1,94 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+.app {
+  display: flex;
   min-height: 100vh;
+}
+
+/* ===== SIDEBAR (Menú lateral) ===== */
+.sidebar {
+  width: 250px;
+  background: linear-gradient(180deg, #02153D 0%, #4B227A 100%);
+  color: white;
+  padding: 20px;
+  position: fixed;
+  height: 100vh;
+  overflow-y: auto;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  text-align: center;
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.logo h1 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.menu {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  gap: 10px;
+}
+
+.menu-item {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
   color: white;
+  padding: 15px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: left;
+  transition: all 0.3s ease;
 }
 
-.App-link {
-  color: #61dafb;
+.menu-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(5px);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.menu-item.active {
+  background: #00eed0;
+  color: #02153D;
+  font-weight: bold;
+}
+
+/* ===== CONTENIDO PRINCIPAL ===== */
+.main-content {
+  flex: 1;
+  margin-left: 250px;
+  padding: 30px;
+  max-width: calc(100% - 250px);
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
   }
-  to {
-    transform: rotate(360deg);
+  
+  .main-content {
+    margin-left: 200px;
+    max-width: calc(100% - 200px);
+  }
+}
+
+@media (max-width: 480px) {
+  .app {
+    flex-direction: column;
+  }
+  
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  
+  .main-content {
+    margin-left: 0;
+    max-width: 100%;
   }
 }

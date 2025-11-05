@@ -49,7 +49,7 @@ function TarjetaJuego({ juego, onEliminar, onActualizar }) {
             className={juego.completado ? 'btn-secundario' : 'btn-primario'}
             onClick={toggleCompletado}
           >
-            {juego.completado ? '↩Marcar incompleto' : '✓ Marcar completado'}
+            {juego.completado ? 'Marcar incompleto' : '✓ Marcar completado'}
           </button>
           
           <button 

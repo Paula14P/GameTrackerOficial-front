@@ -1,0 +1,151 @@
+.tarjeta-juego {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.tarjeta-juego:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Imagen */
+.tarjeta-imagen {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+}
+
+.tarjeta-imagen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.badge-completado {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #00eed0;
+  color: #02153D;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+/* Información */
+.tarjeta-info {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.tarjeta-titulo {
+  font-size: 20px;
+  color: #02153D;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.tarjeta-detalles {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge.genero {
+  background: #4B227A;
+  color: white;
+}
+
+.badge.plataforma {
+  background: #0197AF;
+  color: white;
+}
+
+.tarjeta-desarrollador {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.tarjeta-año {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.tarjeta-descripcion {
+  color: #555;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 15px;
+  flex: 1;
+}
+
+/* Botones */
+.tarjeta-acciones {
+  display: flex;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.btn-primario,
+.btn-secundario,
+.btn-eliminar {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-primario {
+  background: #00EED0;
+  color: #02153D;
+}
+
+.btn-primario:hover {
+  background: #00d4c7;
+  transform: scale(1.02);
+}
+
+.btn-secundario {
+  background: #4B227A;
+  color: white;
+}
+
+.btn-secundario:hover {
+  background: #3a1a5f;
+  transform: scale(1.02);
+}
+
+.btn-eliminar {
+  background: #ff4757;
+  color: white;
+  flex: 0.5;
+}
+
+.btn-eliminar:hover {
+  background: #e63946;
+  transform: scale(1.02);
+}

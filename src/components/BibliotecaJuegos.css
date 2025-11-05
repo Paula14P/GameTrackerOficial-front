@@ -1,0 +1,130 @@
+.biblioteca {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Header */
+.biblioteca-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.biblioteca-header h1 {
+  font-size: 32px;
+  color: #02153D;
+  margin-bottom: 5px;
+}
+
+.biblioteca-header p {
+  color: #666;
+  font-size: 16px;
+}
+
+.btn-agregar {
+  background: linear-gradient(135deg, #4B227A 0%, #02153D 100%);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-agregar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(75, 34, 122, 0.3);
+}
+
+/* Filtros */
+.filtros {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.filtro-btn {
+  background: white;
+  border: 2px solid #e0e0e0;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.filtro-btn:hover {
+  border-color: #4B227A;
+  color: #4B227A;
+}
+
+.filtro-btn.active {
+  background: #4B227A;
+  color: white;
+  border-color: #4B227A;
+}
+
+/* Grid de juegos */
+.juegos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+/* Estados de carga */
+.cargando {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #4B227A;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.sin-juegos {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.sin-juegos h2 {
+  color: #02153D;
+  margin-bottom: 10px;
+}
+
+.sin-juegos p {
+  color: #666;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .biblioteca-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .juegos-grid {
+    grid-template-columns: 1fr;
+  }
+}

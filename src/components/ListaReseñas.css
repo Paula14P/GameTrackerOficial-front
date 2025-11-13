@@ -1,0 +1,198 @@
+.lista-reseñas {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header */
+.reseñas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.reseñas-header h1 {
+  font-size: 32px;
+  color: #02153D;
+  margin-bottom: 5px;
+}
+
+.reseñas-header p {
+  color: #666;
+  font-size: 16px;
+}
+
+/* Contenedor de reseñas */
+.reseñas-container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+/* Card de reseña */
+.reseña-card {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.reseña-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Imagen del juego en la reseña */
+.reseña-imagen {
+  width: 200px;
+  min-height: 280px;
+  overflow: hidden;
+}
+
+.reseña-imagen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Contenido */
+.reseña-contenido {
+  flex: 1;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+}
+
+.reseña-header-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.reseña-header-card h3 {
+  color: #02153D;
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+
+/* Estrellas */
+.reseña-estrellas {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.puntuacion-numero {
+  font-size: 14px;
+  color: #666;
+  font-weight: 600;
+}
+
+/* Badges */
+.reseña-badges {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.badge-dificultad {
+  background: #4B227A;
+  color: white;
+  padding: 6px 15px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-recomendado {
+  background: #00eed0;
+  color: #02153D;
+  padding: 6px 15px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Texto de la reseña */
+.reseña-texto {
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 15px;
+  flex: 1;
+}
+
+/* Info adicional */
+.reseña-info {
+  display: flex;
+  gap: 20px;
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+/* Acciones */
+.reseña-acciones {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-eliminar-reseña {
+  background: #ff4757;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-eliminar-reseña:hover {
+  background: #e63946;
+  transform: scale(1.02);
+}
+
+/* Estados vacíos */
+.sin-reseñas {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.sin-reseñas h2 {
+  color: #02153D;
+  margin-bottom: 10px;
+}
+
+.sin-reseñas p {
+  color: #666;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .reseña-card {
+    flex-direction: column;
+  }
+
+  .reseña-imagen {
+    width: 100%;
+    height: 250px;
+  }
+
+  .reseñas-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './ListaReseñas.css';
 import FormularioReseña from './FormularioReseña';
+import Notificacion from './Notificacion';
 import { obtenerReseñas, eliminarReseña, obtenerJuegos } from '../services/api';
+import { useNotificacion } from '../hooks/useNotificacion';
 
 function ListaReseñas() {
   const [reseñas, setReseñas] = useState([]);
@@ -9,6 +11,11 @@ function ListaReseñas() {
   const [cargando, setCargando] = useState(true);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [reseñaEditando, setReseñaEditando] = useState(null);
+  const [mostrarConfirmacion, setMostrarConfirmacion] = useState(false);
+  const [reseñaAEliminar, setReseñaAEliminar] = useState(null);
+
+  // Hook de notificaciones
+  const { notificacion, cerrarNotificacion, exito, error } = useNotificacion();
 
   // Cargar reseñas y juegos al iniciar
   useEffect(() => {
@@ -24,11 +31,9 @@ function ListaReseñas() {
       ]);
       setReseñas(reseñasData);
       setJuegos(juegosData);
-      console.log('Reseñas:', reseñasData); // Para debug
-      console.log('Juegos:', juegosData); // Para debug
-    } catch (error) {
-      console.error('Error al cargar datos:', error);
-      alert('Error al cargar las reseñas');
+    } catch (err) {
+      console.error('Error al cargar datos:', err);
+      error('Error al cargar las reseñas');
     } finally {
       setCargando(false);
     }
@@ -36,45 +41,53 @@ function ListaReseñas() {
 
   // Función para obtener el juego completo
   const obtenerJuego = (juegoId) => {
-    // Si juegoId es un objeto (populate), usar su _id
     const id = typeof juegoId === 'object' && juegoId !== null ? juegoId._id : juegoId;
     return juegos.find(j => j._id === id);
   };
 
   // Función para obtener el nombre del juego
   const obtenerNombreJuego = (juegoId) => {
-    // Si juegoId ya es un objeto con titulo (populate)
     if (typeof juegoId === 'object' && juegoId !== null && juegoId.titulo) {
       return juegoId.titulo;
     }
-    // Si no, buscar en el array de juegos
     const juego = obtenerJuego(juegoId);
     return juego ? juego.titulo : 'Juego desconocido';
   };
 
   // Función para obtener la imagen del juego
   const obtenerImagenJuego = (juegoId) => {
-    // Si juegoId ya es un objeto con imagenPortada (populate)
     if (typeof juegoId === 'object' && juegoId !== null && juegoId.imagenPortada) {
       return juegoId.imagenPortada;
     }
-    // Si no, buscar en el array de juegos
     const juego = obtenerJuego(juegoId);
     return juego ? juego.imagenPortada : 'https://via.placeholder.com/200x280?text=Sin+Imagen';
   };
 
-  // Función para eliminar reseña
-  const handleEliminar = async (id) => {
-    if (window.confirm('¿Estás seguro de eliminar esta reseña?')) {
-      try {
-        await eliminarReseña(id);
-        cargarDatos();
-        alert('Reseña eliminada correctamente');
-      } catch (error) {
-        console.error('Error al eliminar:', error);
-        alert('Error al eliminar la reseña');
-      }
+  // Mostrar modal de confirmación
+  const handleEliminar = (id) => {
+    setReseñaAEliminar(id);
+    setMostrarConfirmacion(true);
+  };
+
+  // Confirmar eliminación
+  const confirmarEliminacion = async () => {
+    try {
+      await eliminarReseña(reseñaAEliminar);
+      cargarDatos();
+      exito('Reseña eliminada correctamente');
+    } catch (err) {
+      console.error('Error al eliminar:', err);
+      error('Error al eliminar la reseña');
+    } finally {
+      setMostrarConfirmacion(false);
+      setReseñaAEliminar(null);
     }
+  };
+
+  // Cancelar eliminación
+  const cancelarEliminacion = () => {
+    setMostrarConfirmacion(false);
+    setReseñaAEliminar(null);
   };
 
   // Función para renderizar estrellas
@@ -93,10 +106,44 @@ function ListaReseñas() {
 
   return (
     <div className="lista-reseñas">
+      {/* Notificaciones */}
+      {notificacion && (
+        <Notificacion
+          mensaje={notificacion.mensaje}
+          tipo={notificacion.tipo}
+          onClose={cerrarNotificacion}
+        />
+      )}
+
+      {/* Modal de confirmación */}
+      {mostrarConfirmacion && (
+        <div className="modal-overlay" onClick={cancelarEliminacion}>
+          <div className="modal-confirmacion" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>⚠️ Confirmar Eliminación</h3>
+            </div>
+            <div className="modal-body">
+              <p>¿Estás seguro de eliminar esta reseña?</p>
+              <p className="modal-advertencia">
+                Esta acción no se puede deshacer.
+              </p>
+            </div>
+            <div className="modal-footer">
+              <button className="btn-cancelar" onClick={cancelarEliminacion}>
+                Cancelar
+              </button>
+              <button className="btn-confirmar-eliminar" onClick={confirmarEliminacion}>
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Encabezado */}
       <div className="reseñas-header">
         <div>
-          <h1>Mis Reseñas</h1>
+          <h1>⭐ Mis Reseñas</h1>
           <p>Comparte tu opinión sobre los juegos</p>
         </div>
         
@@ -120,6 +167,7 @@ function ListaReseñas() {
             cargarDatos();
             setMostrarFormulario(false);
             setReseñaEditando(null);
+            exito('Reseña agregada correctamente');
           }}
         />
       )}
@@ -166,7 +214,7 @@ function ListaReseñas() {
                   <div className="reseña-badges">
                     <span className="badge-dificultad">{reseña.dificultad}</span>
                     {reseña.recomendaria && (
-                      <span className="badge-recomendado"> Recomendado</span>
+                      <span className="badge-recomendado">Recomendado</span>
                     )}
                   </div>
                 </div>
@@ -184,7 +232,7 @@ function ListaReseñas() {
                     className="btn-eliminar-reseña"
                     onClick={() => handleEliminar(reseña._id)}
                   >
-                    Eliminar
+                    🗑️ Eliminar
                   </button>
                 </div>
               </div>

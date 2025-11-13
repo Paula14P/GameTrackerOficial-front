@@ -32,7 +32,6 @@ function FormularioJuego({ onJuegoAgregado }) {
 
     // Validaciones básicas
     if (!formulario.titulo || !formulario.genero || !formulario.plataforma) {
-      alert('Por favor completa los campos obligatorios');
       return;
     }
 
@@ -48,7 +47,6 @@ function FormularioJuego({ onJuegoAgregado }) {
       };
 
       await crearJuego(nuevoJuego);
-      alert('Juego agregado correctamente');
       
       // Limpiar formulario
       setFormulario({
@@ -64,9 +62,8 @@ function FormularioJuego({ onJuegoAgregado }) {
 
       // Notificar al componente padre
       onJuegoAgregado();
-    } catch (error) {
-      console.error('Error al crear juego:', error);
-      alert('Error al agregar el juego');
+    } catch (err) {
+      console.error('Error al crear juego:', err);
     } finally {
       setEnviando(false);
     }
@@ -112,6 +109,7 @@ function FormularioJuego({ onJuegoAgregado }) {
                 <option value="Horror">Horror</option>
                 <option value="Puzzle">Puzzle</option>
                 <option value="FPS">FPS</option>
+                <option value="Otro">Otro</option>
               </select>
             </div>
           </div>
@@ -134,6 +132,7 @@ function FormularioJuego({ onJuegoAgregado }) {
                 <option value="Xbox One">Xbox One</option>
                 <option value="Nintendo Switch">Nintendo Switch</option>
                 <option value="Multiplataforma">Multiplataforma</option>
+                <option value="Otro">Otro</option>
               </select>
             </div>
 

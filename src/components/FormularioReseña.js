@@ -61,7 +61,6 @@ function FormularioReseña({ juegos, onReseñaAgregada }) {
     e.preventDefault();
 
     if (!formulario.juegoId || !formulario.textoReseña) {
-      alert('Por favor selecciona un juego y escribe tu reseña');
       return;
     }
 
@@ -73,8 +72,6 @@ function FormularioReseña({ juegos, onReseñaAgregada }) {
         horasJugadas: Number(formulario.horasJugadas)
       });
       
-      alert('✅ Reseña agregada correctamente');
-      
       // Limpiar formulario
       setFormulario({
         juegoId: '',
@@ -85,10 +82,10 @@ function FormularioReseña({ juegos, onReseñaAgregada }) {
         recomendaria: true
       });
 
+      // Notificar al componente padre
       onReseñaAgregada();
-    } catch (error) {
-      console.error('Error al crear reseña:', error);
-      alert('❌ Error al agregar la reseña');
+    } catch (err) {
+      console.error('Error al crear reseña:', err);
     } finally {
       setEnviando(false);
     }
@@ -97,7 +94,7 @@ function FormularioReseña({ juegos, onReseñaAgregada }) {
   return (
     <div className="formulario-reseña-container">
       <div className="formulario-reseña">
-        <h2>Agregar Nueva Reseña</h2>
+        <h2>⭐ Agregar Nueva Reseña</h2>
         
         <form onSubmit={handleSubmit}>
           {/* Layout con imagen y formulario */}

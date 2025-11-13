@@ -32,17 +32,23 @@ function BibliotecaJuegos() {
 
   // Función para eliminar un juego
   const handleEliminar = async (id) => {
-    if (window.confirm('¿Estás seguro de eliminar este juego?')) {
-      try {
-        await eliminarJuego(id);
-        cargarJuegos(); // Recargar lista
-        alert('Juego eliminado correctamente');
-      } catch (error) {
-        console.error('Error al eliminar:', error);
-        alert('Error al eliminar el juego');
+  if (window.confirm('¿Estás seguro de eliminar este juego? También se eliminarán todas sus reseñas.')) {
+    try {
+      const resultado = await eliminarJuego(id);
+      cargarJuegos(); // Recargar lista
+      
+      // Mostrar mensaje con información de lo eliminado
+      if (resultado.reseñasEliminadas > 0) {
+        alert(`✅ Juego eliminado correctamente\n También se eliminaron ${resultado.reseñasEliminadas} reseña(s) asociada(s)`);
+      } else {
+        alert('✅ Juego eliminado correctamente');
       }
+    } catch (error) {
+      console.error('Error al eliminar:', error);
+      alert('❌ Error al eliminar el juego');
     }
-  };
+  }
+};
 
   // Función para actualizar un juego
   const handleActualizar = async (id, juegoActualizado) => {

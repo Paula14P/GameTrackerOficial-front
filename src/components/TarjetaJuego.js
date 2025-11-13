@@ -32,11 +32,11 @@ function TarjetaJuego({ juego, onEliminar, onActualizar }) {
         </div>
 
         <p className="tarjeta-desarrollador">
-          {juego.desarrollador}
+          🎮 {juego.desarrollador}
         </p>
 
         <p className="tarjeta-año">
-          {juego.añoLanzamiento}
+          📅 {juego.añoLanzamiento}
         </p>
 
         <p className="tarjeta-descripcion">
@@ -49,14 +49,14 @@ function TarjetaJuego({ juego, onEliminar, onActualizar }) {
             className={juego.completado ? 'btn-secundario' : 'btn-primario'}
             onClick={toggleCompletado}
           >
-            {juego.completado ? 'Marcar incompleto' : '✓ Marcar completado'}
+            {juego.completado ? '↩️ Marcar incompleto' : '✓ Marcar completado'}
           </button>
           
           <button 
             className="btn-eliminar"
             onClick={() => onEliminar(juego._id)}
           >
-            Eliminar
+           Eliminar
           </button>
         </div>
       </div>

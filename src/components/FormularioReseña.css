@@ -1,0 +1,51 @@
+.formulario-reseña-container {
+  margin-bottom: 30px;
+  animation: slideDown 0.3s ease;
+}
+
+.formulario-reseña {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.formulario-reseña h2 {
+  color: #02153D;
+  margin-bottom: 25px;
+  font-size: 24px;
+}
+
+/* Slider de puntuación */
+.slider {
+  width: 100%;
+  height: 8px;
+  border-radius: 5px;
+  background: #e0e0e0;
+  outline: none;
+  cursor: pointer;
+}
+
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #4B227A;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #4B227A;
+  cursor: pointer;
+  border: none;
+}
+
+.estrellas-preview {
+  text-align: center;
+  font-size: 24px;
+  margin-top: 10px;
+}

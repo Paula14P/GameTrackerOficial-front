@@ -1,0 +1,262 @@
+.estadisticas {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Header */
+.estadisticas-header {
+  margin-bottom: 30px;
+}
+
+.estadisticas-header h1 {
+  font-size: 32px;
+  color: #02153D;
+  margin-bottom: 5px;
+}
+
+.estadisticas-header p {
+  color: #666;
+  font-size: 16px;
+}
+
+/* Grid de estadísticas principales */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.stat-card {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.stat-icono {
+  font-size: 50px;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+}
+
+.card-juegos .stat-icono {
+  background: linear-gradient(135deg, #4B227A 0%, #02153D 100%);
+}
+
+.card-completados .stat-icono {
+  background: linear-gradient(135deg, #00eed0 0%, #0197AF 100%);
+}
+
+.card-pendientes .stat-icono {
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+}
+
+.card-reseñas .stat-icono {
+  background: linear-gradient(135deg, #FF6B6B 0%, #FF4757 100%);
+}
+
+.card-horas .stat-icono {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.card-promedio .stat-icono {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.stat-info h3 {
+  font-size: 36px;
+  color: #02153D;
+  margin-bottom: 5px;
+}
+
+.stat-info p {
+  color: #666;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Sección de preferencias */
+.preferencias-section {
+  margin-bottom: 40px;
+}
+
+.preferencias-section h2 {
+  color: #02153D;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.preferencias-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.preferencia-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 30px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: white;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.preferencia-icono {
+  font-size: 50px;
+  background: rgba(255, 255, 255, 0.2);
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+}
+
+.preferencia-info {
+  flex: 1;
+}
+
+.preferencia-label {
+  font-size: 14px;
+  opacity: 0.9;
+  margin-bottom: 5px;
+}
+
+.preferencia-info h3 {
+  font-size: 28px;
+  margin: 0;
+}
+
+/* Top 5 Mejores Juegos */
+.top-juegos-section {
+  margin-bottom: 40px;
+}
+
+.top-juegos-section h2 {
+  color: #02153D;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.top-juegos-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.top-juego-item {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: transform 0.3s ease;
+}
+
+.top-juego-item:hover {
+  transform: translateX(10px);
+}
+
+.top-numero {
+  font-size: 32px;
+  font-weight: bold;
+  color: #4B227A;
+  width: 50px;
+  text-align: center;
+}
+
+.top-juego-imagen {
+  width: 80px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.top-juego-info {
+  flex: 1;
+}
+
+.top-juego-info h4 {
+  color: #02153D;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.top-juego-genero {
+  color: #666;
+  font-size: 14px;
+}
+
+.top-juego-calificacion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.estrellas-top {
+  font-size: 20px;
+}
+
+.numero-calificacion {
+  font-size: 18px;
+  font-weight: bold;
+  color: #4B227A;
+}
+
+/* Sin datos */
+.sin-datos {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.sin-datos h2 {
+  color: #02153D;
+  margin-bottom: 10px;
+}
+
+.sin-datos p {
+  color: #666;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .preferencias-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .top-juego-item {
+    flex-wrap: wrap;
+  }
+
+  .top-numero {
+    width: 100%;
+    text-align: left;
+  }
+}

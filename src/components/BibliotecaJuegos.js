@@ -14,6 +14,7 @@ function BibliotecaJuegos() {
   const [filtro, setFiltro] = useState('todos');
   const [mostrarConfirmacion, setMostrarConfirmacion] = useState(false);
   const [juegoAEliminar, setJuegoAEliminar] = useState(null);
+  const [juegoEditando, setJuegoEditando] = useState(null);
   
   // Hook de notificaciones
   const { notificacion, cerrarNotificacion, exito, error } = useNotificacion();
@@ -68,6 +69,22 @@ function BibliotecaJuegos() {
     setMostrarConfirmacion(false);
     setJuegoAEliminar(null);
   };
+
+  // Función para editar un juego
+const handleEditar = (juego) => {
+  // Si el formulario ya está abierto, cerrarlo primero
+  if (mostrarFormulario) {
+    setMostrarFormulario(false);
+    // Esperar un momento antes de abrir con el nuevo juego
+    setTimeout(() => {
+      setJuegoEditando(juego);
+      setMostrarFormulario(true);
+    }, 100);
+  } else {
+    setJuegoEditando(juego);
+    setMostrarFormulario(true);
+  }
+};
 
   // Función para actualizar un juego
   const handleActualizar = async (id, juegoActualizado) => {
@@ -133,19 +150,24 @@ function BibliotecaJuegos() {
         
         <button 
           className="btn-agregar"
-          onClick={() => setMostrarFormulario(!mostrarFormulario)}
+          onClick={() => {
+            setMostrarFormulario(!mostrarFormulario);
+            setJuegoEditando(null);
+          }}
         >
           {mostrarFormulario ? '✕ Cerrar' : '➕ Agregar Juego'}
         </button>
       </div>
 
-      {/* Formulario para agregar juego */}
+      {/* Formulario para agregar/editar juego */}
       {mostrarFormulario && (
         <FormularioJuego 
+          juegoEditando={juegoEditando}
           onJuegoAgregado={() => {
             cargarJuegos();
             setMostrarFormulario(false);
-            exito('Juego agregado correctamente');
+            setJuegoEditando(null);
+            exito(juegoEditando ? 'Juego actualizado correctamente' : 'Juego agregado correctamente');
           }}
         />
       )}
@@ -163,14 +185,14 @@ function BibliotecaJuegos() {
           className={filtro === 'completados' ? 'filtro-btn active' : 'filtro-btn'}
           onClick={() => setFiltro('completados')}
         >
-          Completados ({juegos.filter(j => j.completado).length})
+          Pendientes ({juegos.filter(j => j.completado).length})
         </button>
         
         <button 
           className={filtro === 'pendientes' ? 'filtro-btn active' : 'filtro-btn'}
           onClick={() => setFiltro('pendientes')}
         >
-          Pendientes ({juegos.filter(j => !j.completado).length})
+          Completado ({juegos.filter(j => !j.completado).length})
         </button>
       </div>
 
@@ -193,6 +215,7 @@ function BibliotecaJuegos() {
               juego={juego}
               onEliminar={handleEliminar}
               onActualizar={handleActualizar}
+              onEditar={handleEditar}
             />
           ))}
         </div>

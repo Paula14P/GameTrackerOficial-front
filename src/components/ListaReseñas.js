@@ -90,6 +90,23 @@ function ListaReseñas() {
     setReseñaAEliminar(null);
   };
 
+  // Función para editar una reseña
+  const handleEditar = (reseña) => {
+    // Si el formulario ya está abierto, cerrarlo primero
+    if (mostrarFormulario) {
+      setMostrarFormulario(false);
+      setReseñaEditando(null);
+      // Esperar un momento antes de abrir con la nueva reseña
+      setTimeout(() => {
+        setReseñaEditando(reseña);
+        setMostrarFormulario(true);
+      }, 100);
+    } else {
+      setReseñaEditando(reseña);
+      setMostrarFormulario(true);
+    }
+  };
+
   // Función para renderizar estrellas
   const renderEstrellas = (puntuacion) => {
     return '⭐'.repeat(puntuacion) + '☆'.repeat(5 - puntuacion);
@@ -143,7 +160,7 @@ function ListaReseñas() {
       {/* Encabezado */}
       <div className="reseñas-header">
         <div>
-          <h1>⭐ Mis Reseñas</h1>
+          <h1>Mis Reseñas</h1>
           <p>Comparte tu opinión sobre los juegos</p>
         </div>
         
@@ -167,7 +184,7 @@ function ListaReseñas() {
             cargarDatos();
             setMostrarFormulario(false);
             setReseñaEditando(null);
-            exito('Reseña agregada correctamente');
+            exito(reseñaEditando ? 'Reseña actualizada correctamente' : 'Reseña agregada correctamente');
           }}
         />
       )}
@@ -222,17 +239,24 @@ function ListaReseñas() {
                 <p className="reseña-texto">{reseña.textoReseña}</p>
 
                 <div className="reseña-info">
-                  <span>🕐 {reseña.horasJugadas} horas jugadas</span>
-                  <span>📅 {formatearFecha(reseña.fechaCreacion)}</span>
+                  <span>{reseña.horasJugadas} horas jugadas</span>
+                  <span>{formatearFecha(reseña.fechaCreacion)}</span>
                 </div>
 
                 {/* Botones de acción */}
                 <div className="reseña-acciones">
                   <button 
+                    className="btn-editar-reseña"
+                    onClick={() => handleEditar(reseña)}
+                  >
+                    Editar
+                  </button>
+                  
+                  <button 
                     className="btn-eliminar-reseña"
                     onClick={() => handleEliminar(reseña._id)}
                   >
-                    🗑️ Eliminar
+                    Eliminar
                   </button>
                 </div>
               </div>

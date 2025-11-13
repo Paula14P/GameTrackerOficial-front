@@ -145,6 +145,34 @@
   gap: 10px;
 }
 
+.btn-editar-reseña,
+.btn-eliminar-reseña {
+  flex: 1;
+  background: #ff4757;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-editar-reseña {
+  background: #0197AF;
+}
+
+.btn-editar-reseña:hover {
+  background: #017a8f;
+  transform: scale(1.02);
+}
+
+.btn-eliminar-reseña:hover {
+  background: #e63946;
+  transform: scale(1.02);
+}
+
 .btn-eliminar-reseña {
   background: #ff4757;
   color: white;

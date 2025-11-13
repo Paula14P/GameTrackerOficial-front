@@ -268,3 +268,10 @@
     font-size: 35px;
   }
 }
+/* Texto de ayuda */
+.ayuda-campo {
+  font-size: 12px;
+  color: #ff4757;
+  margin-top: 5px;
+  font-style: italic;
+}

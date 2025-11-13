@@ -108,6 +108,7 @@
 
 .btn-primario,
 .btn-secundario,
+.btn-editar,
 .btn-eliminar {
   flex: 1;
   padding: 10px;
@@ -136,6 +137,16 @@
 
 .btn-secundario:hover {
   background: #3a1a5f;
+  transform: scale(1.02);
+}
+
+.btn-editar {
+  background: #0197AF;
+  color: white;
+}
+
+.btn-editar:hover {
+  background: #017a8f;
   transform: scale(1.02);
 }
 

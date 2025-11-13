@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './FormularioJuego.css';
-import { crearJuego } from '../services/api';
+import { crearJuego, actualizarJuego } from '../services/api';
 
-function FormularioJuego({ onJuegoAgregado }) {
+function FormularioJuego({ onJuegoAgregado, juegoEditando }) {
   // Estado del formulario
   const [formulario, setFormulario] = useState({
     titulo: '',
@@ -16,6 +16,22 @@ function FormularioJuego({ onJuegoAgregado }) {
   });
 
   const [enviando, setEnviando] = useState(false);
+
+  // Cargar datos del juego si estamos editando
+  useEffect(() => {
+    if (juegoEditando) {
+      setFormulario({
+        titulo: juegoEditando.titulo || '',
+        genero: juegoEditando.genero || '',
+        plataforma: juegoEditando.plataforma || '',
+        añoLanzamiento: juegoEditando.añoLanzamiento || '',
+        desarrollador: juegoEditando.desarrollador || '',
+        imagenPortada: juegoEditando.imagenPortada || '',
+        descripcion: juegoEditando.descripcion || '',
+        completado: juegoEditando.completado || false
+      });
+    }
+  }, [juegoEditando]);
 
   // Manejar cambios en los inputs
   const handleChange = (e) => {
@@ -38,15 +54,20 @@ function FormularioJuego({ onJuegoAgregado }) {
     try {
       setEnviando(true);
       
-      // Crear el juego con valores por defecto si están vacíos
-      const nuevoJuego = {
+      // Preparar datos del juego
+      const datosJuego = {
         ...formulario,
         añoLanzamiento: formulario.añoLanzamiento || new Date().getFullYear(),
         imagenPortada: formulario.imagenPortada || 'https://via.placeholder.com/300x400?text=Sin+Imagen',
         descripcion: formulario.descripcion || 'Sin descripción'
       };
 
-      await crearJuego(nuevoJuego);
+      // Crear o actualizar según el caso
+      if (juegoEditando) {
+        await actualizarJuego(juegoEditando._id, datosJuego);
+      } else {
+        await crearJuego(datosJuego);
+      }
       
       // Limpiar formulario
       setFormulario({
@@ -63,7 +84,7 @@ function FormularioJuego({ onJuegoAgregado }) {
       // Notificar al componente padre
       onJuegoAgregado();
     } catch (err) {
-      console.error('Error al crear juego:', err);
+      console.error('Error al guardar juego:', err);
     } finally {
       setEnviando(false);
     }
@@ -72,7 +93,7 @@ function FormularioJuego({ onJuegoAgregado }) {
   return (
     <div className="formulario-juego-container">
       <div className="formulario-juego">
-        <h2>➕ Agregar Nuevo Juego</h2>
+        <h2>{juegoEditando ? '✏️ Editar Juego' : '➕ Agregar Nuevo Juego'}</h2>
         
         <form onSubmit={handleSubmit}>
           <div className="form-row">
@@ -109,7 +130,6 @@ function FormularioJuego({ onJuegoAgregado }) {
                 <option value="Horror">Horror</option>
                 <option value="Puzzle">Puzzle</option>
                 <option value="FPS">FPS</option>
-                <option value="Otro">Otro</option>
               </select>
             </div>
           </div>
@@ -132,7 +152,6 @@ function FormularioJuego({ onJuegoAgregado }) {
                 <option value="Xbox One">Xbox One</option>
                 <option value="Nintendo Switch">Nintendo Switch</option>
                 <option value="Multiplataforma">Multiplataforma</option>
-                <option value="Otro">Otro</option>
               </select>
             </div>
 
@@ -209,7 +228,7 @@ function FormularioJuego({ onJuegoAgregado }) {
             className="btn-submit"
             disabled={enviando}
           >
-            {enviando ? 'Guardando...' : 'Guardar Juego'}
+            {enviando ? 'Guardando...' : (juegoEditando ? 'Actualizar Juego' : 'Guardar Juego')}
           </button>
         </form>
       </div>

@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './FormularioReseña.css';
-import { crearReseña } from '../services/api';
+import { crearReseña, actualizarReseña } from '../services/api';
 
-function FormularioReseña({ juegos, onReseñaAgregada }) {
+function FormularioReseña({ juegos, onReseñaAgregada, reseñaEditando }) {
   const [formulario, setFormulario] = useState({
     juegoId: '',
     puntuacion: 5,
@@ -14,6 +14,25 @@ function FormularioReseña({ juegos, onReseñaAgregada }) {
 
   const [enviando, setEnviando] = useState(false);
   const [hoverPuntuacion, setHoverPuntuacion] = useState(0);
+
+  // Cargar datos de la reseña si estamos editando
+  useEffect(() => {
+    if (reseñaEditando) {
+      // Obtener el ID correcto del juego
+      const juegoId = typeof reseñaEditando.juegoId === 'object' && reseñaEditando.juegoId !== null
+        ? reseñaEditando.juegoId._id
+        : reseñaEditando.juegoId;
+
+      setFormulario({
+        juegoId: juegoId || '',
+        puntuacion: reseñaEditando.puntuacion || 5,
+        textoReseña: reseñaEditando.textoReseña || '',
+        horasJugadas: reseñaEditando.horasJugadas || 0,
+        dificultad: reseñaEditando.dificultad || 'Normal',
+        recomendaria: reseñaEditando.recomendaria !== undefined ? reseñaEditando.recomendaria : true
+      });
+    }
+  }, [reseñaEditando]);
 
   // Obtener el juego seleccionado
   const juegoSeleccionado = juegos.find(j => j._id === formulario.juegoId);
@@ -66,11 +85,19 @@ function FormularioReseña({ juegos, onReseñaAgregada }) {
 
     try {
       setEnviando(true);
-      await crearReseña({
+      
+      const datosReseña = {
         ...formulario,
         puntuacion: Number(formulario.puntuacion),
         horasJugadas: Number(formulario.horasJugadas)
-      });
+      };
+
+      // Crear o actualizar según el caso
+      if (reseñaEditando) {
+        await actualizarReseña(reseñaEditando._id, datosReseña);
+      } else {
+        await crearReseña(datosReseña);
+      }
       
       // Limpiar formulario
       setFormulario({
@@ -85,7 +112,7 @@ function FormularioReseña({ juegos, onReseñaAgregada }) {
       // Notificar al componente padre
       onReseñaAgregada();
     } catch (err) {
-      console.error('Error al crear reseña:', err);
+      console.error('Error al guardar reseña:', err);
     } finally {
       setEnviando(false);
     }
@@ -94,7 +121,7 @@ function FormularioReseña({ juegos, onReseñaAgregada }) {
   return (
     <div className="formulario-reseña-container">
       <div className="formulario-reseña">
-        <h2>⭐ Agregar Nueva Reseña</h2>
+        <h2>{reseñaEditando ? 'Editar Reseña' : 'Agregar Nueva Reseña'}</h2>
         
         <form onSubmit={handleSubmit}>
           {/* Layout con imagen y formulario */}
@@ -133,6 +160,7 @@ function FormularioReseña({ juegos, onReseñaAgregada }) {
                   value={formulario.juegoId}
                   onChange={handleChange}
                   required
+                  disabled={reseñaEditando} // Deshabilitar si estamos editando
                 >
                   <option value="">Selecciona un juego</option>
                   {juegos.map(juego => (
@@ -141,6 +169,9 @@ function FormularioReseña({ juegos, onReseñaAgregada }) {
                     </option>
                   ))}
                 </select>
+                {reseñaEditando && (
+                  <p className="ayuda-campo">No puedes cambiar el juego al editar una reseña</p>
+                )}
               </div>
 
               {/* Puntuación con estrellas clicables */}
@@ -214,7 +245,7 @@ function FormularioReseña({ juegos, onReseñaAgregada }) {
                 className="btn-submit"
                 disabled={enviando}
               >
-                {enviando ? 'Guardando...' : 'Guardar Reseña'}
+                {enviando ? 'Guardando...' : (reseñaEditando ? 'Actualizar Reseña' : 'Guardar Reseña')}
               </button>
             </div>
           </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import './TarjetaJuego.css';
 
-function TarjetaJuego({ juego, onEliminar, onActualizar }) {
+function TarjetaJuego({ juego, onEliminar, onActualizar, onEditar }) {
   
   // Función para marcar como completado/no completado
   const toggleCompletado = () => {
@@ -36,7 +36,7 @@ function TarjetaJuego({ juego, onEliminar, onActualizar }) {
         </p>
 
         <p className="tarjeta-año">
-          📅 {juego.añoLanzamiento}
+           {juego.añoLanzamiento}
         </p>
 
         <p className="tarjeta-descripcion">
@@ -49,14 +49,21 @@ function TarjetaJuego({ juego, onEliminar, onActualizar }) {
             className={juego.completado ? 'btn-secundario' : 'btn-primario'}
             onClick={toggleCompletado}
           >
-            {juego.completado ? '↩️ Marcar incompleto' : '✓ Marcar completado'}
+            {juego.completado ? 'Incompleto' : 'Completado'}
+          </button>
+          
+          <button 
+            className="btn-editar"
+            onClick={() => onEditar(juego)}
+          >
+            Editar
           </button>
           
           <button 
             className="btn-eliminar"
             onClick={() => onEliminar(juego._id)}
           >
-           Eliminar
+            Eliminar
           </button>
         </div>
       </div>

@@ -218,7 +218,7 @@
 /* Botón de envío */
 .btn-submit {
   width: 100%;
-  background: linear-gradient(135deg, #00eed0 0%, #0197AF 100%);
+  background: linear-gradient(135deg, #00eed0, #0197AF 100%);
   color: #02153D;
   border: none;
   padding: 15px;

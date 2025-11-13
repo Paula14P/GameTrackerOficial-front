@@ -122,7 +122,7 @@ function EstadisticasPersonales() {
     <div className="estadisticas">
       {/* Encabezado */}
       <div className="estadisticas-header">
-        <h1>📊 Mis Estadísticas</h1>
+        <h1>Mis Estadísticas</h1>
         <p>Resumen de tu actividad como gamer</p>
       </div>
 
@@ -144,7 +144,7 @@ function EstadisticasPersonales() {
             </div>
 
             <div className="stat-card card-completados">
-              <div className="stat-icono">✅</div>
+              <div className="stat-icono">✔️</div>
               <div className="stat-info">
                 <h3>{estadisticas.juegosCompletados}</h3>
                 <p>Juegos Completados</p>
@@ -152,7 +152,7 @@ function EstadisticasPersonales() {
             </div>
 
             <div className="stat-card card-pendientes">
-              <div className="stat-icono">⏳</div>
+              <div className="stat-icono">❗</div>
               <div className="stat-info">
                 <h3>{estadisticas.juegosPendientes}</h3>
                 <p>Juegos Pendientes</p>
@@ -168,7 +168,7 @@ function EstadisticasPersonales() {
             </div>
 
             <div className="stat-card card-horas">
-              <div className="stat-icono">🕐</div>
+              <div className="stat-icono">⏳</div>
               <div className="stat-info">
                 <h3>{estadisticas.totalHorasJugadas}</h3>
                 <p>Horas Jugadas</p>
@@ -176,7 +176,7 @@ function EstadisticasPersonales() {
             </div>
 
             <div className="stat-card card-promedio">
-              <div className="stat-icono">⭐</div>
+              <div className="stat-icono">📊</div>
               <div className="stat-info">
                 <h3>{estadisticas.promedioCalificacion}</h3>
                 <p>Calificación Promedio</p>
@@ -186,10 +186,10 @@ function EstadisticasPersonales() {
 
           {/* Sección de preferencias */}
           <div className="preferencias-section">
-            <h2>🎯 Tus Preferencias</h2>
+            <h2>Tus Preferencias</h2>
             <div className="preferencias-grid">
               <div className="preferencia-card">
-                <div className="preferencia-icono"> </div>
+                <div className="preferencia-icono">🚀</div>
                 <div className="preferencia-info">
                   <p className="preferencia-label">Género Favorito</p>
                   <h3>{estadisticas.generoFavorito}</h3>
@@ -240,7 +240,7 @@ function EstadisticasPersonales() {
           {/* Mensaje si no hay datos */}
           {estadisticas.totalJuegos === 0 && (
             <div className="sin-datos">
-              <h2>📊 No hay suficientes datos</h2>
+              <h2>No hay suficientes datos</h2>
               <p>Agrega juegos y reseñas para ver tus estadísticas</p>
             </div>
           )}

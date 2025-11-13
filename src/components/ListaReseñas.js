@@ -24,6 +24,8 @@ function ListaReseñas() {
       ]);
       setReseñas(reseñasData);
       setJuegos(juegosData);
+      console.log('Reseñas:', reseñasData); // Para debug
+      console.log('Juegos:', juegosData); // Para debug
     } catch (error) {
       console.error('Error al cargar datos:', error);
       alert('Error al cargar las reseñas');
@@ -32,16 +34,33 @@ function ListaReseñas() {
     }
   };
 
+  // Función para obtener el juego completo
+  const obtenerJuego = (juegoId) => {
+    // Si juegoId es un objeto (populate), usar su _id
+    const id = typeof juegoId === 'object' && juegoId !== null ? juegoId._id : juegoId;
+    return juegos.find(j => j._id === id);
+  };
+
   // Función para obtener el nombre del juego
   const obtenerNombreJuego = (juegoId) => {
-    const juego = juegos.find(j => j._id === juegoId);
+    // Si juegoId ya es un objeto con titulo (populate)
+    if (typeof juegoId === 'object' && juegoId !== null && juegoId.titulo) {
+      return juegoId.titulo;
+    }
+    // Si no, buscar en el array de juegos
+    const juego = obtenerJuego(juegoId);
     return juego ? juego.titulo : 'Juego desconocido';
   };
 
   // Función para obtener la imagen del juego
   const obtenerImagenJuego = (juegoId) => {
-    const juego = juegos.find(j => j._id === juegoId);
-    return juego ? juego.imagenPortada : 'https://via.placeholder.com/100';
+    // Si juegoId ya es un objeto con imagenPortada (populate)
+    if (typeof juegoId === 'object' && juegoId !== null && juegoId.imagenPortada) {
+      return juegoId.imagenPortada;
+    }
+    // Si no, buscar en el array de juegos
+    const juego = obtenerJuego(juegoId);
+    return juego ? juego.imagenPortada : 'https://via.placeholder.com/200x280?text=Sin+Imagen';
   };
 
   // Función para eliminar reseña
@@ -124,7 +143,10 @@ function ListaReseñas() {
               <div className="reseña-imagen">
                 <img 
                   src={obtenerImagenJuego(reseña.juegoId)} 
-                  alt={obtenerNombreJuego(reseña.juegoId)} 
+                  alt={obtenerNombreJuego(reseña.juegoId)}
+                  onError={(e) => {
+                    e.target.src = 'https://via.placeholder.com/200x280?text=Sin+Imagen';
+                  }}
                 />
               </div>
 
@@ -144,7 +166,7 @@ function ListaReseñas() {
                   <div className="reseña-badges">
                     <span className="badge-dificultad">{reseña.dificultad}</span>
                     {reseña.recomendaria && (
-                      <span className="badge-recomendado">Recomendado</span>
+                      <span className="badge-recomendado"> Recomendado</span>
                     )}
                   </div>
                 </div>
@@ -152,8 +174,8 @@ function ListaReseñas() {
                 <p className="reseña-texto">{reseña.textoReseña}</p>
 
                 <div className="reseña-info">
-                  <span>{reseña.horasJugadas} horas jugadas</span>
-                  <span>{formatearFecha(reseña.fechaCreacion)}</span>
+                  <span>🕐 {reseña.horasJugadas} horas jugadas</span>
+                  <span>📅 {formatearFecha(reseña.fechaCreacion)}</span>
                 </div>
 
                 {/* Botones de acción */}
@@ -162,7 +184,7 @@ function ListaReseñas() {
                     className="btn-eliminar-reseña"
                     onClick={() => handleEliminar(reseña._id)}
                   >
-                    🗑️ Eliminar
+                    Eliminar
                   </button>
                 </div>
               </div>

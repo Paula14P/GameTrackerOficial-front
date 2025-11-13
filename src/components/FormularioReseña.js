@@ -13,6 +13,10 @@ function FormularioReseña({ juegos, onReseñaAgregada }) {
   });
 
   const [enviando, setEnviando] = useState(false);
+  const [hoverPuntuacion, setHoverPuntuacion] = useState(0);
+
+  // Obtener el juego seleccionado
+  const juegoSeleccionado = juegos.find(j => j._id === formulario.juegoId);
 
   // Manejar cambios en los inputs
   const handleChange = (e) => {
@@ -21,6 +25,35 @@ function FormularioReseña({ juegos, onReseñaAgregada }) {
       ...formulario,
       [name]: type === 'checkbox' ? checked : value
     });
+  };
+
+  // Manejar clic en estrellas
+  const handleClickEstrella = (puntuacion) => {
+    setFormulario({
+      ...formulario,
+      puntuacion: puntuacion
+    });
+  };
+
+  // Renderizar estrellas interactivas
+  const renderEstrellas = () => {
+    const estrellas = [];
+    const puntuacionMostrar = hoverPuntuacion || formulario.puntuacion;
+
+    for (let i = 1; i <= 5; i++) {
+      estrellas.push(
+        <span
+          key={i}
+          className={`estrella ${i <= puntuacionMostrar ? 'llena' : 'vacia'}`}
+          onClick={() => handleClickEstrella(i)}
+          onMouseEnter={() => setHoverPuntuacion(i)}
+          onMouseLeave={() => setHoverPuntuacion(0)}
+        >
+          {i <= puntuacionMostrar ? '⭐' : '☆'}
+        </span>
+      );
+    }
+    return estrellas;
   };
 
   // Enviar formulario
@@ -67,106 +100,127 @@ function FormularioReseña({ juegos, onReseñaAgregada }) {
         <h2>Agregar Nueva Reseña</h2>
         
         <form onSubmit={handleSubmit}>
-          {/* Seleccionar juego */}
-          <div className="form-group">
-            <label>Juego *</label>
-            <select
-              name="juegoId"
-              value={formulario.juegoId}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Selecciona un juego</option>
-              {juegos.map(juego => (
-                <option key={juego._id} value={juego._id}>
-                  {juego.titulo}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Puntuación */}
-          <div className="form-group">
-            <label>Puntuación: {formulario.puntuacion} ⭐</label>
-            <input
-              type="range"
-              name="puntuacion"
-              min="1"
-              max="5"
-              value={formulario.puntuacion}
-              onChange={handleChange}
-              className="slider"
-            />
-            <div className="estrellas-preview">
-              {'⭐'.repeat(Number(formulario.puntuacion))}
-              {'☆'.repeat(5 - Number(formulario.puntuacion))}
-            </div>
-          </div>
-
-          <div className="form-row">
-            {/* Horas jugadas */}
-            <div className="form-group">
-              <label>Horas Jugadas</label>
-              <input
-                type="number"
-                name="horasJugadas"
-                value={formulario.horasJugadas}
-                onChange={handleChange}
-                min="0"
-                placeholder="0"
-              />
+          {/* Layout con imagen y formulario */}
+          <div className="formulario-layout">
+            {/* Columna izquierda: Imagen del juego */}
+            <div className="preview-juego">
+              {juegoSeleccionado ? (
+                <>
+                  <img 
+                    src={juegoSeleccionado.imagenPortada} 
+                    alt={juegoSeleccionado.titulo}
+                    className="preview-imagen"
+                  />
+                  <div className="preview-info">
+                    <h3>{juegoSeleccionado.titulo}</h3>
+                    <p className="preview-genero">{juegoSeleccionado.genero}</p>
+                    <p className="preview-plataforma">{juegoSeleccionado.plataforma}</p>
+                    <p className="preview-año">{juegoSeleccionado.añoLanzamiento}</p>
+                  </div>
+                </>
+              ) : (
+                <div className="preview-vacio">
+                  <span className="icono-preview">🎮</span>
+                  <p>Selecciona un juego para ver su portada</p>
+                </div>
+              )}
             </div>
 
-            {/* Dificultad */}
-            <div className="form-group">
-              <label>Dificultad</label>
-              <select
-                name="dificultad"
-                value={formulario.dificultad}
-                onChange={handleChange}
+            {/* Columna derecha: Campos del formulario */}
+            <div className="formulario-campos">
+              {/* Seleccionar juego */}
+              <div className="form-group">
+                <label>Juego *</label>
+                <select
+                  name="juegoId"
+                  value={formulario.juegoId}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Selecciona un juego</option>
+                  {juegos.map(juego => (
+                    <option key={juego._id} value={juego._id}>
+                      {juego.titulo}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Puntuación con estrellas clicables */}
+              <div className="form-group">
+                <label>Puntuación: {formulario.puntuacion} de 5 estrellas</label>
+                <div className="estrellas-interactivas">
+                  {renderEstrellas()}
+                </div>
+                <p className="ayuda-estrellas">Haz clic en las estrellas para puntuar</p>
+              </div>
+
+              <div className="form-row">
+                {/* Horas jugadas */}
+                <div className="form-group">
+                  <label>Horas Jugadas</label>
+                  <input
+                    type="number"
+                    name="horasJugadas"
+                    value={formulario.horasJugadas}
+                    onChange={handleChange}
+                    min="0"
+                    placeholder="0"
+                  />
+                </div>
+
+                {/* Dificultad */}
+                <div className="form-group">
+                  <label>Dificultad</label>
+                  <select
+                    name="dificultad"
+                    value={formulario.dificultad}
+                    onChange={handleChange}
+                  >
+                    <option value="Fácil">Fácil</option>
+                    <option value="Normal">Normal</option>
+                    <option value="Difícil">Difícil</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Texto de la reseña */}
+              <div className="form-group">
+                <label>Tu Reseña *</label>
+                <textarea
+                  name="textoReseña"
+                  value={formulario.textoReseña}
+                  onChange={handleChange}
+                  placeholder="Escribe tu opinión sobre el juego..."
+                  rows="6"
+                  required
+                />
+              </div>
+
+              {/* Checkbox recomendaría */}
+              <div className="form-group-check">
+                <input
+                  type="checkbox"
+                  name="recomendaria"
+                  id="recomendaria"
+                  checked={formulario.recomendaria}
+                  onChange={handleChange}
+                />
+                <label htmlFor="recomendaria">
+                  Recomendaría este juego
+                </label>
+              </div>
+
+              {/* Botón de envío */}
+              <button 
+                type="submit" 
+                className="btn-submit"
+                disabled={enviando}
               >
-                <option value="Fácil">Fácil</option>
-                <option value="Normal">Normal</option>
-                <option value="Difícil">Difícil</option>
-              </select>
+                {enviando ? 'Guardando...' : 'Guardar Reseña'}
+              </button>
             </div>
           </div>
-
-          {/* Texto de la reseña */}
-          <div className="form-group">
-            <label>Tu Reseña *</label>
-            <textarea
-              name="textoReseña"
-              value={formulario.textoReseña}
-              onChange={handleChange}
-              placeholder="Escribe tu opinión sobre el juego..."
-              rows="6"
-              required
-            />
-          </div>
-
-          {/* Checkbox recomendaría */}
-          <div className="form-group-check">
-            <input
-              type="checkbox"
-              name="recomendaria"
-              id="recomendaria"
-              checked={formulario.recomendaria}
-              onChange={handleChange}
-            />
-            <label htmlFor="recomendaria">
-              Recomendaría este juego
-            </label>
-          </div>
-
-          {/* Botón de envío */}
-          <button 
-            type="submit" 
-            className="btn-submit"
-            disabled={enviando}
-          >
-            {enviando ? 'Guardando...' : 'Guardar Reseña'}
-          </button>
         </form>
       </div>
     </div>
